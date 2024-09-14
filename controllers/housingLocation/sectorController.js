@@ -2,13 +2,11 @@ import Sector from "../../models/housingLocation/Sector.js";
 import Distrito from "../../models/housingLocation/Distrito.js";
 
 const agregarRegistro = async (req, res) => {
-    const { nombre, iddistrito } = req.body;
+    const { iddistrito } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
-        if (!iddistrito) {
-            return respondWithError(res, 400, 'El campo "iddistrito" es obligatorio');
+        const distrito = await Distrito.findByPk(iddistrito);
+        if (!distrito) {
+            return respondWithError(res, 404, 'Distrito no encontrado');
         }
         await Sector.create(req.body);
         res.json({ msg: 'Sector agregado correctamente' });
@@ -48,16 +46,15 @@ const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
     const { nombre, iddistrito } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
-        if (!iddistrito) {
-            return respondWithError(res, 400, 'El campo "iddistrito" es obligatorio');
-        }
 
         const sector = await Sector.findByPk(id);
         if (!sector) {
             return respondWithError(res, 404, 'Sector no encontrado');
+        }
+        
+        const distrito = await Distrito.findByPk(iddistrito);
+        if (!distrito) {
+            return respondWithError(res, 404, 'Distrito no encontrado');
         }
 
         // Actualiza

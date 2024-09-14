@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 // User
 import empleadoRoutes from './routes/user/empleadoRoutes.js'
 import cargoRoutes from './routes/user/cargoRoutes.js'
-import authRoutes from './routes/person/authRoutes.js'
+import authRoutes from './routes/user/authRoutes.js'
 import usuarioRoutes from './routes/user/usuarioRoutes.js'
 import rolRoutes from './routes/user/rolRoutes.js'
 
@@ -56,7 +56,7 @@ dotenv.config();
 app.use('/api/auth', authRoutes);
 app.use('/api/empleado', [checkAuth, isAdmin], empleadoRoutes);
 app.use('/api/cargo', [checkAuth, isAdmin], cargoRoutes);
-app.use('/api/usuario', [checkAuth, isAdmin], usuarioRoutes);
+app.use('/api/usuario', usuarioRoutes);
 app.use('/api/rol', [checkAuth, isAdmin], rolRoutes);
 
 // Person Routes

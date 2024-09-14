@@ -1,6 +1,7 @@
 import db from '../../config/db.js';
 import generarId from '../../helpers/generarId.js';
 import { Model, DataTypes } from 'sequelize';
+import Empleado from '../user/Empleado.js';
 
 
 class FichaFamiliar extends Model {}
@@ -13,13 +14,13 @@ FichaFamiliar.init({
         primaryKey: true,
         defaultValue: generarId()
     },
-    idequipo: {
+    idempleado: {
         type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    sector_ficha: {
-        type: DataTypes.STRING(15),
-        allowNull: true
+        allowNull: false,
+        references: {
+            model: 'Empleado',
+            key: 'id'
+        }
     },
     resultado_aplicacion: {
         type: DataTypes.STRING(60),
@@ -39,8 +40,31 @@ FichaFamiliar.init({
     modelName: 'FichaFamiliar',
     tableName: 'ficha_familiar',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(fichaFamiliar) {
+            const { resultado_aplicacion, apellidos_familia } = fichaFamiliar;
+
+            if (typeof resultado_aplicacion === 'string' ) {
+                fichaFamiliar.resultado_aplicacion = resultado_aplicacion.trim();
+            }
+
+            if (typeof apellidos_familia === 'string') {
+                fichaFamiliar.apellidos_familia = apellidos_familia.trim();
+            }
+        }
+    }
     }
 );
+
+FichaFamiliar.belongsTo(Empleado, {
+    foreignKey: 'idempleado',
+    as: 'Empleado'
+});
+
+FichaFamiliar.hasMany(Persona, {
+    foreignKey: 'idficha_familiar',
+    as: 'Personas'
+})
 
 export default FichaFamiliar;

@@ -2,11 +2,7 @@ import {respondWithError, respondWithServerError} from '../../helpers/errors.js'
 import Parentesco from "../../models/person/Parentesco.js";
 
 const agregarRegistro = async (req, res) => {
-    const {nombre} = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await Parentesco.create(req.body);
         res.json({msg: 'Parentesco agregado correctamente'});
     } catch (error) {
@@ -40,11 +36,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const parentesco = await Parentesco.findByPk(id);
         if (!parentesco) {
             return respondWithError(res, 404, 'Parentesco no encontrado');

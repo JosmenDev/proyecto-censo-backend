@@ -1,11 +1,8 @@
 import Departamento from "../../models/housingLocation/Departamento.js";
+import {respondWithError, respondWithServerError} from '../../helpers/errors.js';
 
 const agregarRegistro = async (req, res) => {
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await Departamento.create(req.body);
         res.json({msg: 'Departamento agregado correctamente'});
     } catch (error) {
@@ -41,11 +38,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const departamento = await Departamento.findByPk(id);
         if (!departamento) {
             return respondWithError(res, 404, 'Departamento no encontrado');

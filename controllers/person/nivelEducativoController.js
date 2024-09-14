@@ -2,11 +2,7 @@ import {respondWithError, respondWithServerError} from '../../helpers/errors.js'
 import NivelEducativo from "../../models/person/NivelEducativo.js";
 
 const agregarRegistro = async (req, res) => {
-    const {nombre} = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await NivelEducativo.create(req.body);
         res.json({msg: 'Nivel educativo agregado correctamente'});
     } catch (error) {
@@ -40,11 +36,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const nivelEducativo = await NivelEducativo.findByPk(id);
         if (!nivelEducativo) {
             return respondWithError(res, 404, 'Nivel educativo no encontrado');

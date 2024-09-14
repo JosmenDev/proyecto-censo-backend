@@ -2,11 +2,7 @@ import Religion from "../../models/person/Religion.js";
 import {respondWithError, respondWithServerError} from '../../helpers/errors.js';
 
 const agregarRegistro = async (req, res) => {
-    const {nombre} = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await Religion.create(req.body);
         res.json({msg: 'Religión agregada correctamente'});
     } catch (error) {
@@ -40,11 +36,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const religion = await Religion.findByPk(id);
         if (!religion) {
             return respondWithError(res, 404, 'Religión no encontrada');

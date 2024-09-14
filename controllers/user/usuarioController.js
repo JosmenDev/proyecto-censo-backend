@@ -4,24 +4,20 @@ import Empleado from "../../models/user/Empleado.js";
 import Usuario from "../../models/user/Usuario.js";
 
 const agregarRegistro = async (req, res) => {
-    const {username, password} = req.body;
+    const { idempleado } = req.body;
     try {
-        if (!username) {
-            return respondWithError(res, 400, 'El campo "Nombre de Usuario" es obligatorio');
-        }
-        if (!password) {
-            return respondWithError(res, 400, 'El campo "Contraseña" es obligatorio');
+        const empleado = await Empleado.findByPk(idempleado);
+        if (!empleado) {
+            return respondWithError(res, 404, 'Empleado no encontrado');
         }
         await Usuario.create(req.body);
         res.json({msg: 'Usuario registrado correctamente'});
     } catch (error) {
         respondWithServerError(res, error);
     }
-    
 }
 
 const listarRegistros = async (req, res) => {
-
     try {
         const listadoUsuarios = await Usuario.findAll({where: {estado: true},
         include: {model: Empleado, as: 'Empleado', attributes: ['dni', 'nombre', 'apellidos']}});
@@ -48,14 +44,13 @@ const obtenerRegistro = async (req, res) => {
 const actualizarRegistro = async (req, res) => {
 
     const {id} = req.params;
-    const {username, password} = req.body;
+    const {username, password, idempleado, idrol} = req.body;
     try {
-        if (!username) {
-            return respondWithError(res, 400, 'El campo "Nombre de Usuario" es obligatorio');
+        const empleado = await Empleado.findByPk(idempleado);
+        if (!empleado) {
+            return respondWithError(res, 404, 'Empleado no encontrado');
         }
-        if (!password) {
-            return respondWithError(res, 400, 'El campo "Contraseña" es obligatorio');
-        }
+
         const usuario = await Usuario.findByPk(id);
         if (!usuario) {
             return respondWithError(res, 404, 'Usuario no encontrado');
@@ -63,6 +58,8 @@ const actualizarRegistro = async (req, res) => {
 
         usuario.username = username || usuario.username;
         usuario.password = password || usuario.password;
+        usuario.idrol = idrol || usuario.idrol;
+
         await usuario.save();
         res.json({msg: 'Usuario actualizado correctamente'});
     } catch (error) {

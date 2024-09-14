@@ -2,11 +2,7 @@ import {respondWithError, respondWithServerError} from '../../helpers/errors.js'
 import CargoComunidad from '../../models/person/cargoCuminadad.js';
 
 const agregarRegistro = async (req, res) => {
-    const {nombre} = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await CargoComunidad.create(req.body);
         res.json({msg: 'Cargo de Comunidad agregado correctamente'});
     } catch (error) {
@@ -40,11 +36,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const cargoComunidad = await CargoComunidad.findByPk(id);
         if (!cargoComunidad) {
             return respondWithError(res, 404, 'Cargo de comunidad no encontrado');

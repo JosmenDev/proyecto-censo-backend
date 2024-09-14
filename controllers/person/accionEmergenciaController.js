@@ -1,11 +1,8 @@
 import AccionEmergencia from "../../models/person/AccionEmergencia.js";
+import { respondWithError, respondWithServerError } from "../../helpers/errors.js";
 
 const agregarRegistro = async (req, res) => {
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await AccionEmergencia.create(req.body);
         res.json({msg: 'Acción de emergencia agregada correctamente'});
     } catch (error) {
@@ -39,11 +36,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const accionEmergencia = await AccionEmergencia.findByPk(id);
         if (!accionEmergencia) {
             return respondWithError(res, 404, 'Acción de emergencia no encontrada');

@@ -2,11 +2,7 @@ import {respondWithError, respondWithServerError} from '../../helpers/errors.js'
 import GrupoEtnico from "../../models/person/GrupoEtnico.js";
 
 const agregarRegistro = async (req, res) => {
-    const {nombre} = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await GrupoEtnico.create(req.body);
         res.json({msg: 'Grupo étnico agregado correctamente'});
     } catch (error) {
@@ -40,11 +36,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const grupoEtnico = await GrupoEtnico.findByPk(id);
         if (!grupoEtnico) {
             return respondWithError(res, 404, 'Grupo étnico no encontrado');

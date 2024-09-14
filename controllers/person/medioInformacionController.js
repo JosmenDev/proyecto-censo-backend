@@ -2,11 +2,7 @@ import {respondWithError, respondWithServerError} from '../../helpers/errors.js'
 import MedioInformacion from "../../models/person/MedioInformacion.js";
 
 const agregarRegistro = async (req, res) => {
-    const {nombre} = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await MedioInformacion.create(req.body);
         res.json({msg: 'Medio de información agregado correctamente'});
     } catch (error) {
@@ -40,11 +36,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const medioInformacion = await MedioInformacion.findByPk(id);
         if (!medioInformacion) {
             return respondWithError(res, 404, 'Medio de información no encontrado');

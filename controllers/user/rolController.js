@@ -2,14 +2,8 @@ import { respondWithError, respondWithServerError } from "../../helpers/errors.j
 import Rol from "../../models/user/Rol.js"
 
 const agregarRegistro = async (req, res) => {
-    const { id, nombre } = req.body;
+    const { id } = req.body;
     try {
-        if (!id) {
-            return respondWithError(res, 400, 'El campo "ID" es obligatorio');
-        }
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const rolEncontrado = await Rol.findByPk(id);
         if (rolEncontrado) {
             return respondWithError(res, 409, 'El rol ya está registrado');
@@ -56,9 +50,7 @@ const actualizarRegistro = async (req, res) => {
         if (!rol) {
             return respondWithError(res, 404, 'Rol no encontrado');
         }
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
+        
         const rolNombre = await Rol.findOne({ where: {nombre}});
         if (rolNombre) {
             return respondWithError(res, 409, 'Rol ya está registrado');

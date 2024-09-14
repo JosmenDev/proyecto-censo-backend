@@ -1,11 +1,7 @@
 import ServicioHigienico from "../../models/houstingCharacteristics/ServicioHigienico.js";
 
 const agregarRegistro = async (req, res) => {
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await ServicioHigienico.create(req.body);
         res.json({msg: 'Servicio higiénico agregado correctamente'});
     } catch (error) {
@@ -39,11 +35,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const servicioHigienico = await ServicioHigienico.findByPk(id);
         if (!servicioHigienico) {
             return respondWithError(res, 404, 'Servicio higiénico no encontrado');

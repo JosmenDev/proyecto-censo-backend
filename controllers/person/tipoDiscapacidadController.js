@@ -2,11 +2,7 @@ import {respondWithError, respondWithServerError} from '../../helpers/errors.js'
 import TipoDiscapacidad from "../../models/person/TipoDiscapacidad.js";
 
 const agregarRegistro = async (req, res) => {
-    const {nombre} = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await TipoDiscapacidad.create(req.body);
         res.json({msg: 'Tipo de discapacidad agregado correctamente'});
     } catch (error) {
@@ -40,11 +36,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const tipoDiscapacidad = await TipoDiscapacidad.findByPk(id);
         if (!tipoDiscapacidad) {
             return respondWithError(res, 404, 'Tipo de discapacidad no encontrado');

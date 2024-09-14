@@ -1,14 +1,13 @@
+import { respondWithError, respondWithServerError } from "../../helpers/errors.js";
 import Departamento from "../../models/housingLocation/Departamento.js";
 import Provincia from "../../models/housingLocation/Provincia.js";
 
 const agregarRegistro = async (req, res) => {
-    const { nombre, iddepartamento } = req.body;
+    const {iddepartamento} = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
-        if (!iddepartamento) {
-            return respondWithError(res, 400, 'El campo "departamento" es obligatorio');
+        const departamento = await Departamento.findByPk(iddepartamento);
+        if (!departamento) {
+            return respondWithError(res, 404, 'Departamento no encontrado');
         }
         await Provincia.create(req.body);
         res.json({msg: 'Provincia agregada correctamente'});
@@ -48,13 +47,11 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre, iddepartamento } = req.body;
+    const { iddepartamento } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
-        if (!iddepartamento) {
-            return respondWithError(res, 400, 'El campo "departamento" es obligatorio');
+        const departamento = await Departamento.findByPk(iddepartamento);
+        if (!departamento) {
+            return respondWithError(res, 404, 'Departamento no encontrado');
         }
         const provincia = await Provincia.findByPk(id);
         if (!provincia) {

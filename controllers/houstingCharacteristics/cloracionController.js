@@ -1,11 +1,8 @@
 import Cloracion from "../../models/houstingCharacteristics/Cloracion.js";
+import {respondWithError, respondWithServerError} from '../../helpers/errors.js';
 
 const agregarRegistro = async (req, res) => {
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await Cloracion.create(req.body);
         res.json({msg: 'Cloración agregada correctamente'});
     } catch (error) {
@@ -39,11 +36,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const cloracion = await Cloracion.findByPk(id);
         if (!cloracion) {
             return respondWithError(res, 404, 'Cloración no encontrada');

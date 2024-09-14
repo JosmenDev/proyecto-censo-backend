@@ -6,12 +6,6 @@ import Usuario from "../../models/user/Usuario.js";
 const autenticar = async (req, res) => {
     const { username, password } = req.body;
     try {
-        if (!username) {
-            return respondWithError(res, 400, 'El campo "Nombre de Usuario" es obligatorio');
-        }
-        if (!password) {
-            return respondWithError(res, 400, 'El campo "Contraseña" es obligatorio');
-        }
         const usuario = await Usuario.findOne({ where: {username}});
         // validar el username
         // console.log('Validando username');
@@ -32,7 +26,6 @@ const autenticar = async (req, res) => {
 
         // autenticar usuario
         res.json({token: generarJWT(usuario.id) });
-        
 
     } catch (error) {
         return respondWithServerError(res, error);

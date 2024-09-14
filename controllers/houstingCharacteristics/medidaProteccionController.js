@@ -1,11 +1,7 @@
 import MedidaProteccion from "../../models/houstingCharacteristics/MedidaProteccion.js";
 
 const agregarRegistro = async (req, res) => {
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await MedidaProteccion.create(req.body);
         res.json({msg: 'Medida de protección agregado correctamente'});
     } catch (error) {
@@ -39,11 +35,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const medidaProteccion = await MedidaProteccion.findByPk(id);
         if (!medidaProteccion) {
             return respondWithError(res, 404, 'Medida de protección no encontrada');

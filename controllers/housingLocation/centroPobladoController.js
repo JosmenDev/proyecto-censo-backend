@@ -2,20 +2,12 @@ import CentroPoblado from "../../models/housingLocation/CentroPoblado.js";
 import Distrito from "../../models/housingLocation/Distrito.js";
 
 const agregarRegistro = async (req, res) => {
-    const { nombre, iddistrito } = req.body;
+    const { iddistrito } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
-        if (!iddistrito) {
-            return respondWithError(res, 400, 'El campo "iddistrito" es obligatorio');
-        }
-        
         const distrito = await Distrito.findByPk(iddistrito);
         if (!distrito) {
             return respondWithError(res, 404, 'Distrito no encontrado');
         }
-
         await CentroPoblado.create(req.body);
         res.json({ msg: 'Centro Poblado agregado correctamente' });
     } catch (error) {
@@ -54,13 +46,7 @@ const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
     const { nombre, iddistrito } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
-        if (!iddistrito) {
-            return respondWithError(res, 400, 'El campo "iddistrito" es obligatorio');
-        }
-
+        
         const centroPoblado = await CentroPoblado.findByPk(id);
         if (!centroPoblado) {
             return respondWithError(res, 404, 'Centro Poblado no encontrado');

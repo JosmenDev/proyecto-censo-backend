@@ -1,15 +1,16 @@
 import express from 'express';
 import { actualizarRegistro, agregarRegistro, desactivarRegistro, listarRegistros, obtenerRegistro } from '../../controllers/person/parentescoController.js';
+import validarCampo from '../../middleware/validations/defaultValidations.js';
 
 const router = express.Router();
 
 router.route('/')
-    .post(agregarRegistro)
+    .post(validarCampo, agregarRegistro)
     .get(listarRegistros)
 
 router.route('/:id')
     .get(obtenerRegistro)
-    .put(actualizarRegistro)
+    .put(validarCampo, actualizarRegistro)
     .patch(desactivarRegistro)
 
 

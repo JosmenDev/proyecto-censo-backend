@@ -2,13 +2,11 @@ import Distrito from "../../models/housingLocation/Distrito.js";
 import Provincia from "../../models/housingLocation/Provincia.js";
 
 const agregarRegistro = async (req, res) => {
-    const { nombre, idprovincia } = req.body;
+    const { idprovincia } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
-        if (!idprovincia) {
-            return respondWithError(res, 400, 'El campo "provincia" es obligatorio');
+        const provincia = await Provincia.findByPk(idprovincia);
+        if (!provincia) {
+            return respondWithError(res, 404, 'Provincia no encontrada');
         }
         await Distrito.create(req.body);
         res.json({ msg: 'Distrito agregado correctamente' });
@@ -48,11 +46,9 @@ const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
     const { nombre, idprovincia } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
-        if (!idprovincia) {
-            return respondWithError(res, 400, 'El campo "provincia" es obligatorio');
+        const provincia = await Provincia.findByPk(idprovincia);
+        if (!provincia) {
+            return respondWithError(res, 404, 'Provincia no encontrada');
         }
         const distrito = await Distrito.findByPk(id);
         if (!distrito) {

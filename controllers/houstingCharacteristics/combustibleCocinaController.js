@@ -1,11 +1,9 @@
 import CombustibleCocina from "../../models/houstingCharacteristics/CombustibleCocina.js";
+import {respondWithError, respondWithServerError} from '../../helpers/errors.js';
 
 const agregarRegistro = async (req, res) => {
     const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         await CombustibleCocina.create(req.body);
         res.json({msg: 'Combustible de cocina agregado correctamente'});
     } catch (error) {
@@ -39,11 +37,7 @@ const obtenerRegistro = async (req, res) => {
 
 const actualizarRegistro = async (req, res) => {
     const { id } = req.params;
-    const { nombre } = req.body;
     try {
-        if (!nombre) {
-            return respondWithError(res, 400, 'El campo "nombre" es obligatorio');
-        }
         const combustibleCocina = await CombustibleCocina.findByPk(id);
         if (!combustibleCocina) {
             return respondWithError(res, 404, 'Combustible de cocina no encontrado');

@@ -1,15 +1,16 @@
 import express from 'express';
 import { actualizarRegistro, agregarRegistro, desactivarRegistro, listarRegistros, obtenerRegistro } from '../../controllers/user/rolController.js';
+import validarCampos from '../../middleware/validations/user/rolValidations.js';
 
 const router = express.Router();
 
 router.route('/')
-    .post(agregarRegistro)
+    .post(validarCampos, agregarRegistro)
     .get(listarRegistros)
 
 router.route('/:id')
     .get(obtenerRegistro)
-    .put(actualizarRegistro)
+    .put(validarCampos, actualizarRegistro)
     .patch(desactivarRegistro);
 
 export default router;

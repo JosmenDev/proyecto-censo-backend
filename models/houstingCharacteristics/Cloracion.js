@@ -8,12 +8,7 @@ Cloracion.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ Cloracion.init( {
     modelName: 'Cloracion',
     tableName: 'cloracion',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(cloracion) {
+            if (typeof cloracion.nombre === 'string') {
+                cloracion.nombre = cloracion.nombre.trim();
+            }
+        }
+    }
 });
 
 export default Cloracion;

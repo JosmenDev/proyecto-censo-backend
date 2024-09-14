@@ -9,12 +9,7 @@ Distrito.init({
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'string') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     idprovincia: {  // Campo de relación con Provincia
@@ -35,7 +30,14 @@ Distrito.init({
     modelName: 'Distrito',
     tableName: 'distrito',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(distrito) {
+            if (typeof distrito.nombre === 'string') {
+                distrito.nombre = distrito.nombre.trim();
+            }
+        }
+    }
 });
 
 Distrito.belongsTo(Provincia, { 

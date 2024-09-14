@@ -9,12 +9,7 @@ Sector.init({
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'string') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     iddistrito: {  // Campo de relación con Distrito
@@ -35,11 +30,18 @@ Sector.init({
     modelName: 'Sector',
     tableName: 'sector',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(sector) {
+            if (typeof sector.nombre === 'string') {
+                sector.nombre = sector.nombre.trim();
+            }
+        }
+    }
 });
 
 // Definir la relación entre Sector y Distrito
-Sector.belongsTo(Distrito, { 
+Sector.belongsTo(Distrito, {
     foreignKey: 'iddistrito', 
     as: 'Distrito' 
 });

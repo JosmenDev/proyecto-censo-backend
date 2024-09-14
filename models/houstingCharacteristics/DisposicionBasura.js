@@ -8,12 +8,7 @@ DisposicionBasura.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ DisposicionBasura.init( {
     modelName: 'DisposicionBasura',
     tableName: 'disposicion_basura',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(disposicionBasura) {
+            if (typeof disposicionBasura.nombre === 'string') {
+                disposicionBasura.nombre = disposicionBasura.nombre.trim();
+            }
+        }
+    }
 });
 
 export default DisposicionBasura;

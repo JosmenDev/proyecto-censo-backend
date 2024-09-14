@@ -8,12 +8,7 @@ NivelEducativo.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ NivelEducativo.init ( {
     modelName: 'NivelEducativo',
     tableName: 'nivel_educativo',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(nivelEducativo) {
+            if (typeof nivelEducativo.nombre === 'string') {
+                nivelEducativo.nombre = nivelEducativo.nombre.trim();
+            }
+        }
+    }
 });
 
 export default NivelEducativo;

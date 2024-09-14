@@ -9,12 +9,7 @@ CentroPoblado.init({
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'string') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     iddistrito: {  // Campo de relación con Distrito
@@ -35,7 +30,14 @@ CentroPoblado.init({
     modelName: 'CentroPoblado',
     tableName: 'centro_poblado',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(centroPoblado) {
+            if (typeof centroPoblado.nombre === 'string') {
+                centroPoblado.nombre = centroPoblado.nombre.trim();
+            }
+        }
+    }
 });
 
 // Definir la relación entre CentroPoblado y Distrito

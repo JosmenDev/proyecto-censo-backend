@@ -8,12 +8,7 @@ Parentesco.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ Parentesco.init ( {
     modelName: 'Parentesco',
     tableName: 'parentesco',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(parentesco) {
+            if (typeof parentesco.nombre === 'string') {
+                parentesco.nombre = parentesco.nombre.trim();
+            }
+        }
+    }
 });
 
 export default Parentesco;

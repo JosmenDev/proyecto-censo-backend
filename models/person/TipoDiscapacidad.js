@@ -8,12 +8,7 @@ TipoDiscapacidad.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ TipoDiscapacidad.init ( {
     modelName: 'TipoDiscapacidad',
     tableName: 'tipo_discapacidad',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(tipoDiscapacidad) {
+            if (typeof tipoDiscapacidad.nombre === 'string') {
+                tipoDiscapacidad.nombre = tipoDiscapacidad.nombre.trim();
+            }
+        }
+    }
 });
 
 export default TipoDiscapacidad;

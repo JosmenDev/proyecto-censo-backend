@@ -8,12 +8,7 @@ CargoComunidad.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ CargoComunidad.init( {
     modelName: 'CargoComunidad',
     tableName: 'cargo_comunidad',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(cargoComunidad) {
+            if (typeof cargoComunidad.nombre === 'string') {
+                cargoComunidad.nombre = cargoComunidad.nombre.trim();
+            }
+        }
+    }
 });
 
 export default CargoComunidad;

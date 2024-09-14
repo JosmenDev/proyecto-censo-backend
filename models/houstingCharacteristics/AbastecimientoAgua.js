@@ -8,12 +8,7 @@ AbastecimientoAgua.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ AbastecimientoAgua.init( {
     modelName: 'AbastecimientoAgua',
     tableName: 'abastecimiento_agua',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(abatecimientoAgua) {
+            if (typeof abatecimientoAgua.nombre === 'string') {
+                abatecimientoAgua.nombre = abatecimientoAgua.nombre.trim();
+            }
+        }
+    }
 });
 
 export default AbastecimientoAgua;

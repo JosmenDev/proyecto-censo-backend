@@ -8,12 +8,7 @@ SeguroSalud.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ SeguroSalud.init ( {
     modelName: 'SeguroSalud',
     tableName: 'seguro_salud',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(seguroSalud) {
+            if (typeof seguroSalud.nombre === 'string') {
+                seguroSalud.nombre = seguroSalud.nombre.trim();
+            }
+        }
+    }
 });
 
 export default SeguroSalud;

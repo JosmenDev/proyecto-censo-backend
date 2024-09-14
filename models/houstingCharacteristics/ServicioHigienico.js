@@ -8,12 +8,7 @@ ServicioHigienico.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ ServicioHigienico.init( {
     modelName: 'ServicioHigienico',
     tableName: 'servicio_higienico',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(servicioHigienico) {
+            if (typeof servicioHigienico.nombre === 'string') {
+                servicioHigienico.nombre = servicioHigienico.nombre.trim();
+            }
+        }
+    }
 });
 
 export default ServicioHigienico;

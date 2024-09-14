@@ -8,12 +8,7 @@ MaterialVivienda.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ MaterialVivienda.init( {
     modelName: 'MaterialVivienda',
     tableName: 'material_vivienda',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(materialBasura) {
+            if (typeof materialBasura.nombre === 'string') {
+                materialBasura.nombre = materialBasura.nombre.trim();
+            }
+        }
+    }
 });
 
 export default MaterialVivienda;

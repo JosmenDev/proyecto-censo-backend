@@ -8,12 +8,7 @@ CombustibleCocina.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ CombustibleCocina.init( {
     modelName: 'CombustibleCocina',
     tableName: 'combustible_cocina',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(combustibleCocina) {
+            if (typeof combustibleCocina.nombre === 'string') {
+                combustibleCocina.nombre = combustibleCocina.nombre.trim();
+            }
+        }
+    }
 });
 
 export default CombustibleCocina;

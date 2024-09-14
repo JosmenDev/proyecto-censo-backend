@@ -8,12 +8,7 @@ AccionEmergencia.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ AccionEmergencia.init ( {
     modelName: 'AccionEmergencia',
     tableName: 'accion_emergencia',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(accionEmergencia) {
+            if (typeof accionEmergencia.nombre === 'string') {
+                accionEmergencia.nombre = accionEmergencia.nombre.trim();
+            }
+        }
+    }
 });
 
 export default AccionEmergencia;

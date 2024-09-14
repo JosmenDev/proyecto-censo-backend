@@ -8,12 +8,7 @@ Ocupacion.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ Ocupacion.init( {
     modelName: 'Ocupacion',
     tableName: 'ocupacion',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(ocupacion) {
+            if (typeof ocupacion.nombre === 'string') {
+                ocupacion.nombre = ocupacion.nombre.trim();
+            }
+        }
+    }
 });
 
 export default Ocupacion;

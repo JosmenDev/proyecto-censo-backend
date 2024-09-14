@@ -8,12 +8,7 @@ MedidaProteccion.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ MedidaProteccion.init( {
     modelName: 'MedidaProteccion',
     tableName: 'medidas_proteccion',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(madidasProteccion) {
+            if (typeof madidasProteccion.nombre === 'string') {
+                madidasProteccion.nombre = madidasProteccion.nombre.trim();
+            }
+        }
+    }
 });
 
 export default MedidaProteccion;

@@ -8,12 +8,7 @@ GrupoEtnico.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ GrupoEtnico.init ( {
     modelName: 'GrupoEtnico',
     tableName: 'grupo_etnico',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(grupoEtnico) {
+            if (typeof grupoEtnico.nombre === 'string') {
+                grupoEtnico.nombre = grupoEtnico.nombre.trim();
+            }
+        }
+    }
 });
 
 export default GrupoEtnico;

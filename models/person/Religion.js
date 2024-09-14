@@ -8,12 +8,7 @@ Religion.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ Religion.init ( {
     modelName: 'Religion',
     tableName: 'religion',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(religion) {
+            if (typeof religion.nombre === 'string') {
+                religion.nombre = religion.nombre.trim();
+            }
+        }
+    }
 });
 
 export default Religion;

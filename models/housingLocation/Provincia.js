@@ -9,12 +9,7 @@ Provincia.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     iddepartamento: {
@@ -35,7 +30,14 @@ Provincia.init( {
     modelName: 'Provincia',
     tableName: 'provincia',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(provincia) {
+            if (typeof provincia.nombre === 'string') {
+                provincia.nombre = provincia.nombre.trim();
+            }
+        }
+    }
 });
 
 Provincia.belongsTo( Departamento, {

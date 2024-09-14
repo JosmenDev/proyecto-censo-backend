@@ -6,15 +6,7 @@ class MedioInformacion extends Model {};
 MedioInformacion.init( {
     nombre: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
-        }
+        allowNull: false
     },
     estado: {
         type: DataTypes.BOOLEAN,
@@ -26,7 +18,14 @@ MedioInformacion.init( {
     modelName: 'MedioInformacion',
     tableName: 'medios_informacion',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(medioInformacion) {
+            if (typeof medioInformacion.nombre === 'string') {
+                medioInformacion.nombre = medioInformacion.nombre.trim();
+            }
+        }
+    }
 });
 
 export default MedioInformacion;

@@ -36,13 +36,7 @@ Usuario.init( {
         validate: {
             notEmpty: true,
             isNumeric: true,
-            len: [8, 8],
-            trim(value) {
-                if (typeof value === 'String') {
-                    value.trim();
-                    this.setDataValue('username', value.trim());
-                }
-            }
+            len: [8, 8]
         }
     },
     password : {
@@ -69,6 +63,12 @@ Usuario.init( {
     freezeTableName: true,
     timestamps: true,
     hooks: {
+
+        beforeValidate(usuario) {
+            if (typeof usuario.username === 'string') {
+                usuario.username = usuario.username.trim();
+            }
+        },
         // Hook para hashear la contraseña antes de guardar el usuario
         beforeSave: async(usuario) => {
             if (usuario.changed('password')) {

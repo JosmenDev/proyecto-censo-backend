@@ -13,12 +13,7 @@ Rol.init ( {
         allowNull: false,
         unique: true,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -32,7 +27,13 @@ Rol.init ( {
     tableName: 'rol',
     freezeTableName: true,
     timestamps: true,
-
+    hooks: {
+        beforeValidate(rol) {
+            if (typeof rol.nombre === 'string') {
+                rol.nombre = rol.nombre.trim();
+            }
+        }
+    }
 });
 
 export default Rol;

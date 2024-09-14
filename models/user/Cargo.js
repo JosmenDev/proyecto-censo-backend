@@ -8,12 +8,7 @@ Cargo.init ({
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) { 
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim())
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ Cargo.init ({
     modelName: 'Cargo',
     tableName: 'cargo',
     freezeTableName: true,  //Desactiva la pluralizacion automatica
-    timestamps: true    // Habilita el createAt y updateAt
+    timestamps: true,
+    hooks: {
+        beforeValidate(cargo) {
+            if (typeof cargo.nombre === 'string') {
+                cargo.nombre = cargo.nombre.trim();
+            }
+        }
+    }
 })
 
 export default Cargo;

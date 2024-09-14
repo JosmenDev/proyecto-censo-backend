@@ -2,50 +2,32 @@ import { Model, Sequelize } from "sequelize";
 import db from "../../config/db.js";
 import Cargo from "./Cargo.js";
 
-class Empleado extends Model {};
+class Empleado extends Model {}
 
-Empleado.init( {
+Empleado.init({
     dni: {
-        // Es de tipo String
         type: Sequelize.STRING,
-        // Indica que el campo es requerido
         allowNull: false,
-        // Valor único
         unique: true,
         validate: {
             notEmpty: true,
             isNumeric: true,
             isInt: true,
-            len: [8,8],
-            trim(value) {
-                if (typeof value === 'string') {
-                    this.setDataValue('dni', value.trim());
-                }
-            }
+            len: [8, 8]
         }
     },
     nombre: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'string') {
-                    this.setDataValue('nombre', value.trim())
-                }
-            }
+            notEmpty: true
         }
     },
     apellidos: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value){ 
-                if (typeof value === 'string') {
-                    this.setDataValue(value.trim())
-                }
-            }
+            notEmpty: true
         }
     },
     idcargo: {
@@ -66,13 +48,29 @@ Empleado.init( {
     modelName: 'Empleado',
     tableName: 'empleado',
     freezeTableName: true,
-    timestamps: true // Esto habilita `createdAt` y `updatedAt`
+    timestamps: true,
+    hooks: {
+        beforeValidate(empleado) {
+            const {dni, nombre, apellidos} = empleado;
+            if (typeof dni === 'string') {
+                empleado.dni = dni.trim();
+            }
+
+            if (typeof nombre === 'string') {
+                empleado.nombre = nombre.trim();
+            }
+
+            if (typeof apellidos === 'string') {
+                empleado.apellidos = apellidos.trim();
+            }
+        }
+    }
 });
 
-// Establecer la relacion
+// Establecer la relación
 Empleado.belongsTo(Cargo, {
-    foreignKey: "idcargo",  // Define el nombre de la clave foranea
-    as: 'Cargo'     // Alias para la relacion
-})
+    foreignKey: "idcargo",  // Define el nombre de la clave foránea
+    as: 'Cargo'     // Alias para la relación
+});
 
 export default Empleado;

@@ -8,12 +8,7 @@ Departamento.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ Departamento.init( {
     modelName: 'Departamento',
     tableName: 'departamento',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(departamento) {
+            if (typeof departamento.nombre === 'string') {
+                departamento.nombre = departamento.nombre.trim();
+            }
+        }
+    }
 });
 
 export default Departamento;

@@ -8,12 +8,7 @@ Enfermedad.init( {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            notEmpty: true,
-            trim(value) {
-                if (typeof value === 'String') {
-                    this.setDataValue('nombre', value.trim());
-                }
-            }
+            notEmpty: true
         }
     },
     estado: {
@@ -26,7 +21,14 @@ Enfermedad.init( {
     modelName: 'Enfermedad',
     tableName: 'enfermedad',
     freezeTableName: true,
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeValidate(enfermedad) {
+            if (typeof enfermedad.nombre === 'string') {
+                enfermedad.nombre = enfermedad.nombre.trim();
+            }
+        }
+    }
 });
 
 export default Enfermedad;

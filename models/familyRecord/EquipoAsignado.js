@@ -22,6 +22,11 @@ EquipoAsignado.init( {
             model: 'Empleado',
             key: 'id'
         }
+    },
+    estado: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
     }
 },{
     sequelize: db,
@@ -36,9 +41,19 @@ EquipoAsignado.belongsTo( Sector, {
     as: 'Sector'
 });
 
+Sector.hasMany( EquipoAsignado, {
+    foreignKey: 'idsector',
+    as: 'Personal del Sector'
+});
+
 EquipoAsignado.belongsTo( Empleado, {
     foreignKey: 'idempleado',
     as: 'Empleado'
-})
+});
+
+Empleado.hasMany( EquipoAsignado, {
+    foreignKey: 'idempleado',
+    as: 'Sector del Empleado'
+});
 
 export default EquipoAsignado;

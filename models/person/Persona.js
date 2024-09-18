@@ -1,14 +1,25 @@
 import { DataTypes, Model } from "sequelize";
-import generarId from "../../helpers/generarId";
-import db from "../../config/db";
+import db from "../../config/db.js";
+import FichaFamiliar from "../familyRecord/FichaFamilar.js";
+import Parentesco from "./Parentesco.js";
+import NivelEducativo from "./NivelEducativo.js";
+import Ocupacion from "./Ocupacion.js";
+import Religion from "./Religion.js";
+import CargoComunidad from "./cargoCuminadad.js";
+import SeguroSalud from "./SeguroSalud.js";
+import TipoDiscapacidad from "./TipoDiscapacidad.js";
+import AccionEmergencia from "./AccionEmergencia.js";
+import GrupoEtnico from "./GrupoEtnico.js";
+import {v4 as uuid4} from "uuid";
 
 class Persona extends Model {};
 
 Persona.init ( {
-    idpersona: {
+    id: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: generarId()
+        primaryKey: true,
+        defaultValue: uuid4
     },
     nombres: {
         type: DataTypes.STRING,
@@ -52,6 +63,17 @@ Persona.init ( {
         validate: {
             notEmpty: true,
             isNumeric: true
+        }
+    },
+    idficha_familiar: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        },
+        references: {
+            model: FichaFamiliar,
+            key: 'id'
         }
     },
     idparentesco: {
@@ -178,7 +200,7 @@ Persona.init ( {
             notEmpty: true
         }
     },
-    idtipo_capacidad: {
+    idtipo_discapacidad: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -199,17 +221,6 @@ Persona.init ( {
         allowNull: false,
         references: {
             model: 'AccionEmergencia',
-            key: 'id'
-        },
-        validate: {
-            notEmpty: true
-        }
-    },
-    idtipo_capacidad: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'TipoDiscapacidad',
             key: 'id'
         },
         validate: {
@@ -242,9 +253,73 @@ Persona.init ( {
     hooks: {
         beforeValidate(persona) {
             const {nombres, apaterno, amaterno} = persona;
-            if (condition) {
-                
+            if (typeof nombres === 'string') {
+                persona.nombres = nombres.trim();
+            }
+            if (typeof apaterno === 'string') {
+                persona.apaterno = apaterno.trim();
+            }
+            if (typeof amaterno === 'string') {
+                persona.amaterno = amaterno.trim();
             }
         }
     }
-})
+});
+
+Persona.belongsTo(Parentesco, {
+    foreignKey: 'idparentesco',
+    as: 'Parentesco'
+});
+
+Persona.belongsTo(NivelEducativo, {
+    foreignKey: 'idnivel_educativo',
+    as: 'NivelEducativo'
+});
+
+Persona.belongsTo(Ocupacion, {
+    foreignKey: 'idocupacion',
+    as: 'Ocupacion'
+});
+
+Persona.belongsTo(Religion, {
+    foreignKey: 'idreligion',
+    as: 'Religion'
+});
+
+Persona.belongsTo(CargoComunidad, {
+    foreignKey: 'idcargo_comunidad',
+    as: 'CargoComunidad'
+});
+
+Persona.belongsTo(SeguroSalud, {
+    foreignKey: 'idseguro_salud',
+    as: 'SeguroSalud'
+});
+
+Persona.belongsTo(TipoDiscapacidad, {
+    foreignKey: 'idtipo_discapacidad',
+    as: 'TipoDiscapacidad'
+});
+
+Persona.belongsTo(AccionEmergencia, {
+    foreignKey: 'idaccion_emergencia',
+    as: 'AccionEmergencia'
+});
+
+Persona.belongsTo(GrupoEtnico, {
+    foreignKey: 'idgrupo_etnico',
+    as: 'GrupoEtnico'
+});
+
+// Relacion a ficha familiar (1:N)
+Persona.belongsTo(FichaFamiliar, {
+    foreignKey: 'idficha_familiar',
+    as: 'FichaFamiliar'
+});
+
+FichaFamiliar.hasMany(Persona, {
+    foreignKey: 'idficha_familiar',
+    as: 'Personas'
+});
+
+export default Persona;

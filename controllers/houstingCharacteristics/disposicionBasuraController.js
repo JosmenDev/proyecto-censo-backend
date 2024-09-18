@@ -55,7 +55,7 @@ const desactivarRegistro = async (req, res) => {
     try {
         const disposicionBasura = await DisposicionBasura.findByPk(id);
         if (!disposicionBasura) {
-            return respondWithError(res, 404, 'Ocupación no encontrada');
+            return respondWithError(res, 404, 'Disposición de basura no encontrada');
         }
         disposicionBasura.estado = false;
         await disposicionBasura.save();

@@ -1,10 +1,11 @@
 import express from 'express';
 import { agregarRegistro, desactivarRegistro, listarRegistros, obtenerRegistro } from '../../controllers/familyRecord/equipoAsignadoController.js';
+import validarCampos from '../../middleware/validations/familyRecord/equipoAsignadoValidations.js';
 
 const router = express.Router();
 
 router.route('/')
-    .post(agregarRegistro)
+    .post(validarCampos, agregarRegistro)
     .get(listarRegistros);
 
 router.route('/:id')

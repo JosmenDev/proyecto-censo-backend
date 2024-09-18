@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import db from "../../config/db.js";
-import Distrito from "./Distrito.js";  // Importar el modelo relacionado
+import Distrito from "./Distrito.js";
 
 class CentroPoblado extends Model {};
 
@@ -40,7 +40,6 @@ CentroPoblado.init({
     }
 });
 
-// Definir la relación entre CentroPoblado y Distrito
 CentroPoblado.belongsTo(Distrito, { 
     foreignKey: 'iddistrito', 
     as: 'distrito' 

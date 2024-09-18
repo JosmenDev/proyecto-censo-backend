@@ -20,7 +20,7 @@ const agregarRegistro = async (req, res) => {
 const listarRegistros = async (req, res) => {
     try {
         const listadoUsuarios = await Usuario.findAll({where: {estado: true},
-        include: {model: Empleado, as: 'Empleado', attributes: ['dni', 'nombre', 'apellidos']}});
+        include: {model: Empleado, as: 'empleado', attributes: ['dni', 'nombre', 'apellidos']}});
         res.json({ msg: listadoUsuarios});
     } catch (error) {
         respondWithServerError(res, error);

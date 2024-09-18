@@ -1,18 +1,26 @@
 import db from '../../config/db.js';
-import generarId from '../../helpers/generarId.js';
+// import generarId from '../../helpers/generarId.js';
 import { Model, DataTypes } from 'sequelize';
 import Empleado from '../user/Empleado.js';
+import { v4 as uuid4 } from 'uuid';
 
-
-class FichaFamiliar extends Model {}
+class FichaFamiliar extends Model {}    
 
 FichaFamiliar.init({
 
-    idficha_familiar: {
+    id: {
         type: DataTypes.STRING(20),
         allowNull: false,
         primaryKey: true,
-        defaultValue: generarId()
+        defaultValue: uuid4
+    },
+    fecha_ficha: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            isDate: true
+        }
     },
     idempleado: {
         type: DataTypes.INTEGER,
@@ -62,9 +70,9 @@ FichaFamiliar.belongsTo(Empleado, {
     as: 'Empleado'
 });
 
-FichaFamiliar.hasMany(Persona, {
-    foreignKey: 'idficha_familiar',
-    as: 'Personas'
-})
+Empleado.hasMany(FichaFamiliar, {
+    foreignKey: 'idempleado',
+    as: 'Fichas Familiares'
+});
 
 export default FichaFamiliar;

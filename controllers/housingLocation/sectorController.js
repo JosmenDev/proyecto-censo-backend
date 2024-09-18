@@ -1,5 +1,8 @@
 import Sector from "../../models/housingLocation/Sector.js";
 import Distrito from "../../models/housingLocation/Distrito.js";
+import { respondWithError, respondWithServerError } from "../../helpers/errors.js";
+import Provincia from "../../models/housingLocation/Provincia.js";
+import Departamento from "../../models/housingLocation/Departamento.js";
 
 const agregarRegistro = async (req, res) => {
     const { iddistrito } = req.body;
@@ -19,7 +22,11 @@ const listarRegistros = async (req, res) => {
     try {
         const listarSectores = await Sector.findAll({
             where: { estado: true },
-            include: [{ model: Distrito, as: 'distrito' }]  // Incluir datos del distrito relacionado
+            include: [{ model: Distrito, as: 'Distrito',
+                include: [{ model: Provincia, as: 'Provincia',
+                    include: [{ model: Departamento, as: 'Departamento'}]
+                }] 
+            }]
         });
         res.json(listarSectores);
     } catch (error) {
@@ -31,7 +38,11 @@ const obtenerRegistro = async (req, res) => {
     const { id } = req.params;
     try {
         const sector = await Sector.findByPk(id, {
-            include: [{ model: Distrito, as: 'distrito' }]  // Incluir el distrito
+            include: [{ model: Distrito, as: 'Distrito',
+                include: [{ model: Provincia, as: 'Provincia',
+                    include: [{ model: Departamento, as: 'Departamento'}]
+                }] 
+            }]
         });
         if (!sector) {
             return respondWithError(res, 404, 'Sector no encontrado');

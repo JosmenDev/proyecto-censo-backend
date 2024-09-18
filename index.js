@@ -21,6 +21,7 @@ import enfermedadRoutes from './routes/person/enfermedadRoutes.js';
 import medioInformacionRoutes from './routes/person/medioInformacionRoutes.js';
 import nivelEducativoRoutes from './routes/person/nivelEducativoRoutes.js';
 import grupoEtnicoRoutes from './routes/person/grupoEtnicoRoutes.js';
+// import personaRoutes from './routes/person/personaRoutes.js';
 
 // Housing Characteristics
 import abastecimientoAguaRoutes from './routes/houstingCharacteristics/abastecimientoAguaRoutes.js';
@@ -40,6 +41,7 @@ import sectorRoutes from './routes/housingLocation/sectorRoutes.js';
 
 // Family Record
 import equipoAsignadoRoutes from './routes/familyRecord/equipoAsignadoRoutes.js';
+import fichaFamiliarRoutes from './routes/familyRecord/fichaFamiliarRoutes.js';
 
 import {checkAuth, isRegister, isAdmin} from './middleware/authMiddleware.js';
 
@@ -71,6 +73,7 @@ app.use('/api/enfermedad', [checkAuth, isAdmin], enfermedadRoutes);
 app.use('/api/medioInformacion', [checkAuth, isAdmin], medioInformacionRoutes);
 app.use('/api/nivelEducativo', [checkAuth, isAdmin], nivelEducativoRoutes);
 app.use('/api/grupoEtnico', [checkAuth, isAdmin], grupoEtnicoRoutes);
+// app.use('/api/persona', [checkAuth, isAdmin], personaRoutes);
 
 // Housing Characteristics
 app.use('/api/abastecimientoAgua', [checkAuth, isAdmin], abastecimientoAguaRoutes);
@@ -90,6 +93,8 @@ app.use('/api/sector', [checkAuth, isAdmin], sectorRoutes);
 
 // Family Record
 app.use('/api/equipoAsignado', [checkAuth, isAdmin], equipoAsignadoRoutes);
+app.use('/api/fichaFamiliar', [checkAuth, isAdmin], fichaFamiliarRoutes);
+
 
 // Creacion del servidor
 const PORT = process.env.PORT || 4000;

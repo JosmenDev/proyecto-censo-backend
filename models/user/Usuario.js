@@ -1,8 +1,8 @@
 import db from "../../config/db.js";
 import { DataTypes, Model } from "sequelize";
-import Empleado from "./Empleado.js";
 import generarId from "../../helpers/generarId.js";
 import bcrypt from 'bcrypt';
+import Empleado from "./Empleado.js";
 import Rol from "./Rol.js";
 
 class Usuario extends Model {
@@ -82,12 +82,12 @@ Usuario.init( {
 // Establecer la relacion
 Usuario.belongsTo(Empleado, {
     foreignKey: 'idempleado',
-    as: 'Empleado'
-})
+    as: 'empleado'
+});
 
 Usuario.belongsTo(Rol, {
     foreignKey: 'idrol',
-    as: 'Rol'
-})
+    as: 'rol'
+});
 
 export default Usuario;

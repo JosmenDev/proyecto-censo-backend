@@ -67,10 +67,11 @@ Empleado.init({
     }
 });
 
-// Establecer la relación
+// Ejecuta relaciones despues de haber inicializado
+
 Empleado.belongsTo(Cargo, {
-    foreignKey: "idcargo",  // Define el nombre de la clave foránea
-    as: 'Cargo'     // Alias para la relación
+    foreignKey: "idcargo",
+    as: 'Cargo'
 });
 
 export default Empleado;

@@ -1,27 +1,19 @@
 import EquipoAsignado from "../../models/familyRecord/EquipoAsignado.js";
 import Empleado from "../../models/user/Empleado.js";  
 import Sector from "../../models/housingLocation/Sector.js";
+import { respondWithError, respondWithServerError } from "../../helpers/errors.js";
 
 const agregarRegistro = async (req, res) => {
     const { idempleado, idsector } = req.body;
     try {
-        if (!idsector) {
-            return respondWithError(res, 400, 'El campo "Sector" es obligatorio');
-        }
-        // Validar que se proporcionen idempleado e idsector
-        if (!idempleado) {
-            return respondWithError(res, 400, 'El campo "Empleado" es obligatorio');
-        }
-        
         // Verificar que el empleado y el sector existen
-        const empleado = await Empleado.findByPk(idempleado);
-        if (!empleado) {
-            return respondWithError(res, 404, 'Empleado no encontrado');
-        }
-
         const sector = await Sector.findByPk(idsector);
         if (!sector) {
             return respondWithError(res, 404, 'Sector no encontrado');
+        }
+        const empleado = await Empleado.findByPk(idempleado);
+        if (!empleado) {
+            return respondWithError(res, 404, 'Empleado no encontrado');
         }
 
         // Crear el registro
@@ -39,8 +31,8 @@ const listarRegistros = async (req, res) => {
                 estado: true
             },
             include: [
-                { model: Empleado, as: 'empleado' },
-                { model: Sector, as: 'sector' }
+                { model: Empleado, as: 'Empleado' },
+                { model: Sector, as: 'Sector' }
             ]
         });
         res.json(registros);
@@ -52,10 +44,10 @@ const listarRegistros = async (req, res) => {
 const obtenerRegistro = async (req, res) => {
     const { id } = req.params;
     try {
-        const equipoAsignado = await EquipoAsignado.findAll( {where: {idempleado: id}}, {
+        const equipoAsignado = await EquipoAsignado.findAll( {where: {idsector: id}}, {
             include: [
-                { model: Empleado, as: 'empleado' },
-                { model: Sector, as: 'sector' }
+                { model: Empleado, as: 'Empleado' },
+                { model: Sector, as: 'Sector' }
             ]
         });
         if (!equipoAsignado) {
@@ -70,7 +62,7 @@ const obtenerRegistro = async (req, res) => {
 const desactivarRegistro = async (req, res) => {
     const { id } = req.params;
     try {
-        const equipoAsinado = await EquipoAsignado.findByPk(id);
+        const equipoAsignado = await EquipoAsignado.findByPk(id);
         if (!equipoAsignado) {
             return respondWithError(res, 404, 'Registro no encontrado');
         }

@@ -13,7 +13,7 @@ const agregarRegistro = async (req, res) => {
 const listarRegistros = async (req, res) => {
     try {
         const listarCargosComunidad = await CargoComunidad.findAll({where:{
-            estado: 1
+            estado: true
         }})
         res.json(listarCargosComunidad);
     } catch (error) {
@@ -24,11 +24,11 @@ const listarRegistros = async (req, res) => {
 const obtenerRegistro = async (req, res) => {
     const { id } = req.params;
     try {
-        const CargoComunidad = await CargoComunidad.findByPk(id);
-        if (!CargoComunidad) {
+        const cargoComunidad = await CargoComunidad.findByPk(id);
+        if (!cargoComunidad) {
             return respondWithError(res, 404, 'Cargo de comunidad no encontrado');
         }
-        res.json(CargoComunidad);
+        res.json(cargoComunidad);
     } catch (error) {
         respondWithServerError(res, error);
     }

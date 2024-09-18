@@ -8,7 +8,7 @@ router.route('/')
     .post(validarCampo, agregarRegistro)
     .get(listarRegistros);
 
-router.route('/')
+router.route('/:id')
     .get(obtenerRegistro)
     .put(validarCampo, actualizarRegistro)
     .patch(desactivarRegistro);

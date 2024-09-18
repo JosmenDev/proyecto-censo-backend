@@ -1,3 +1,4 @@
+import { respondWithError, respondWithServerError } from "../../helpers/errors.js";
 import MedidaProteccion from "../../models/houstingCharacteristics/MedidaProteccion.js";
 
 const agregarRegistro = async (req, res) => {

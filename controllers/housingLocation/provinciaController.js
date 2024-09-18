@@ -22,7 +22,7 @@ const listarRegistros = async (req, res) => {
             where: {
                 estado: true
             },
-            include: [{ model: Departamento, as: 'departamento' }]
+            include: [{ model: Departamento, as: 'Departamento' }]
         });
         res.json(listarProvincias);
     } catch (error) {
@@ -34,7 +34,7 @@ const obtenerRegistro = async (req, res) => {
     const { id } = req.params;
     try {
         const provincia = await Provincia.findByPk(id, {
-            include: [{ model: Departamento, as: 'departamento' }]
+            include: [{ model: Departamento, as: 'Departamento' }]
         });
         if (!provincia) {
             return respondWithError(res, 404, 'Provincia no encontrada');

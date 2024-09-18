@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import Usuario from '../models/user/Usuario.js';
 import { respondWithError, respondWithServerError } from '../helpers/errors.js';
 import Rol from '../models/user/Rol.js';
+import Empleado from '../models/user/Empleado.js';
 
 const checkAuth = async (req, res, next ) => {
     let token = null;  // Inicializamos la variable `token` como null
@@ -16,7 +17,8 @@ const checkAuth = async (req, res, next ) => {
             
             // req.usuario crea sesion con el usuario
             req.usuario = await Usuario.findByPk(decoded.id, {
-                attributes: { exclude: ['password', 'token', 'confirmado'] }
+                attributes: { exclude: ['password', 'token', 'confirmado'] },
+                include: [ { model: Empleado, as: 'empleado'}]
             });
             // .get() aseguras de que usuario sea un objeto plano, y no la instancia completa de Sequelize
             if (!req.usuario) {

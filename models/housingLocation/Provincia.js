@@ -16,7 +16,7 @@ Provincia.init( {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Region',
+            model: 'Departamento',
             key: 'id'
         }
     },

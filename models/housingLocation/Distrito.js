@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import db from "../../config/db.js";
-import Provincia from "./Provincia.js";  // Importar el modelo relacionado
+import Provincia from "./Provincia.js"; 
 
 class Distrito extends Model {};
 

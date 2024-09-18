@@ -1,3 +1,4 @@
+import { respondWithError, respondWithServerError } from "../../helpers/errors.js";
 import ServicioHigienico from "../../models/houstingCharacteristics/ServicioHigienico.js";
 
 const agregarRegistro = async (req, res) => {
@@ -54,7 +55,7 @@ const desactivarRegistro = async (req, res) => {
     try {
         const servicioHigienico = await ServicioHigienico.findByPk(id);
         if (!servicioHigienico) {
-            return respondWithError(res, 404, 'Ocupación no encontrada');
+            return respondWithError(res, 404, 'Servicio higiénico no encontrado');
         }
         servicioHigienico.estado = false;
         await servicioHigienico.save();

@@ -6,6 +6,7 @@ import Usuario from "../../models/user/Usuario.js";
 const autenticar = async (req, res) => {
     const { username, password } = req.body;
     try {
+        // console.log('Validando...');
         const usuario = await Usuario.findOne({ where: {username}});
         // validar el username
         // console.log('Validando username');
@@ -18,14 +19,17 @@ const autenticar = async (req, res) => {
         if (!validarPassword) {
             return respondWithError(res, 404, 'El password es incorrecto');
         }
+        const data = {confirmado: usuario.confirmado};
 
         // confirmar password
         if (!usuario.confirmado) {
-            return respondWithError(res, 404, 'Tu cuenta no ha sido confirmada');
+            data.token = usuario.token;
+        } else {
+            data.token = generarJWT(usuario.id);
         }
 
         // autenticar usuario
-        res.json({token: generarJWT(usuario.id) });
+        res.json(data);
 
     } catch (error) {
         return respondWithServerError(res, error);
@@ -36,11 +40,11 @@ const comprobarToken = async (req, res) => {
     const { token } = req.params;
     try {
         const tokenValido = await Usuario.findOne({where: {token}});
-        console.log(tokenValido);
+        // console.log(tokenValido);
         if (!tokenValido) {
             return respondWithError(res, 404, 'Token no válido');
         }
-        res.json({msg: 'Token válido y el usuario existe'});
+        res.json(tokenValido);
 
     } catch (error) {
         respondWithServerError(res, error);
@@ -73,12 +77,17 @@ const confirmar = async (req, res) => {
     } catch (error) {
         respondWithServerError(res, error);
     }
-    
 
 };
+
+const perfil = (req, res) => {
+    const { usuario } = req;
+    res.json(usuario);
+}
 
 export {
     autenticar,
     confirmar,
-    comprobarToken
+    comprobarToken,
+    perfil
 }

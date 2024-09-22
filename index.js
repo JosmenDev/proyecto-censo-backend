@@ -1,6 +1,7 @@
 // Dependencias
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // User
 import empleadoRoutes from './routes/user/empleadoRoutes.js'
@@ -47,11 +48,28 @@ import {checkAuth, isRegister, isAdmin} from './middleware/authMiddleware.js';
 
 // en app se contiene las funcionalidad para crear el servidor
 const app = express();
+
 // permito a app recibir datos en formato json
 app.use(express.json());
 
 // habilito la opcion para usar las variables de entorno
 dotenv.config();
+
+// dominios permitidos
+const dominiosPermitidos = [process.env.FRONTEND_URL];
+const corsOptions = {
+    origin: function (origin, collbak) {
+        if (dominiosPermitidos.indexOf(origin) !== -1) {
+            collbak(null, true);
+        }
+        else {
+            collbak(new Error("No permitido por CORS"));
+        }
+    }
+}
+
+// Cors options
+app.use(cors(corsOptions));
 
 // Rutas
 // User Rutes

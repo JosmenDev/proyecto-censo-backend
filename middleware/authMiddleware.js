@@ -14,7 +14,7 @@ const checkAuth = async (req, res, next ) => {
             // separo el token en dos valores y tomo el segundo valor
             token = req.headers.authorization.split(' ')[1];
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            
+            console.log(decoded.id);
             // req.usuario crea sesion con el usuario
             req.usuario = await Usuario.findByPk(decoded.id, {
                 attributes: { exclude: ['password', 'token', 'confirmado'] },

@@ -69,7 +69,7 @@ const corsOptions = {
 }
 
 // Cors options
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Rutas
 // User Rutes

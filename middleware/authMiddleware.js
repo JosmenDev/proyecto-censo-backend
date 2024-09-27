@@ -46,7 +46,13 @@ const hasRoles = (roles) => {
     }
 }
 
+const nameRoles = {
+    isAdmin: 'ADMIN',
+    isRegister: 'REGISTER'
+};
+
 export {
     hasRoles,
-    checkAuth
+    checkAuth,
+    nameRoles
 };

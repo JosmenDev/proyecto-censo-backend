@@ -44,7 +44,7 @@ import sectorRoutes from './routes/housingLocation/sectorRoutes.js';
 import equipoAsignadoRoutes from './routes/familyRecord/equipoAsignadoRoutes.js';
 import fichaFamiliarRoutes from './routes/familyRecord/fichaFamiliarRoutes.js';
 
-import {checkAuth, hasRoles} from './middleware/authMiddleware.js';
+import {checkAuth, hasRoles, nameRoles} from './middleware/authMiddleware.js';
 
 // en app se contiene las funcionalidad para crear el servidor
 const app = express();
@@ -72,11 +72,7 @@ const corsOptions = {
 app.use(cors());
 
 // Variables para roles
-const roles = {
-    isAdmin: 'ADMIN',
-    isRegister: 'REGISTER'
-};
-const {isAdmin, isRegister} = roles;
+const {isAdmin, isRegister} = nameRoles;
 // Rutas
 // User Rutes
 app.use('/api/auth', authRoutes);

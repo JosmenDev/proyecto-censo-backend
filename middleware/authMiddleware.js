@@ -27,47 +27,26 @@ const checkAuth = async (req, res, next ) => {
             // una vez en sesion, le doy next para que ingrese al sistema
             return next();
         } catch (error) {
-            respondWithServerError(res, error);
+            return respondWithError(res, 401,  error);
         }
     }
 
     // si se queda vacio o no hubo un token valido
     if (!token) {
-        respondWithError(res, 403, 'Token no válido o inexistente');
+        return respondWithError(res, 403, 'Token no válido o inexistente');
     }
 }
 
-const isRegister = async(req, res, rext) => {
-    try {
-        const usuario = await Usuario.findByPk(req.usuario.id);
-        const rol = await Rol.findByPk(req.usuario.idrol);
-        // Validar si es registrador
-        if (rol.id === "REGISTER") {
+const hasRoles = (roles) => {
+    return (req, res, next) => {
+        if (roles.includes(req.usuario.idrol)) {
             return next();
         }
-        return respondWithError(res, 403, 'Requiere el rol de registrador');
-    } catch (error) {
-        respondWithServerError(res, error); 
-    }
-}
-
-const isAdmin = async(req, res, next) => {
-    try {
-        const usuario = await Usuario.findByPk(req.usuario.id);
-        const rol = await Rol.findByPk(req.usuario.idrol);
-        // Validar si es administrador
-        console.log(rol.id);
-        if (rol.id === 'ADMIN') {
-            return next();
-        }
-        return respondWithError(res, 403, 'Requiere el rol de administrador');
-    } catch (error) {
-        respondWithServerError(res, error);
+        return respondWithError(res, 403, 'No tienes acceso para esta ruta');
     }
 }
 
 export {
-    checkAuth,
-    isRegister,
-    isAdmin
+    hasRoles,
+    checkAuth
 };

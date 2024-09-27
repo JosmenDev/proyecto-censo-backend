@@ -44,7 +44,7 @@ import sectorRoutes from './routes/housingLocation/sectorRoutes.js';
 import equipoAsignadoRoutes from './routes/familyRecord/equipoAsignadoRoutes.js';
 import fichaFamiliarRoutes from './routes/familyRecord/fichaFamiliarRoutes.js';
 
-import {checkAuth, isRegister, isAdmin} from './middleware/authMiddleware.js';
+import {checkAuth, hasRoles} from './middleware/authMiddleware.js';
 
 // en app se contiene las funcionalidad para crear el servidor
 const app = express();
@@ -71,47 +71,53 @@ const corsOptions = {
 // Cors options
 app.use(cors());
 
+// Variables para roles
+const roles = {
+    isAdmin: 'ADMIN',
+    isRegister: 'REGISTER'
+};
+const {isAdmin, isRegister} = roles;
 // Rutas
 // User Rutes
 app.use('/api/auth', authRoutes);
-app.use('/api/empleado', [checkAuth, isAdmin], empleadoRoutes);
-app.use('/api/cargo', [checkAuth, isAdmin], cargoRoutes);
+app.use('/api/empleado', [checkAuth, hasRoles([isAdmin])], empleadoRoutes);
+app.use('/api/cargo', [checkAuth, hasRoles([isAdmin])], cargoRoutes);
 app.use('/api/usuario', usuarioRoutes);
-app.use('/api/rol', [checkAuth, isAdmin], rolRoutes);
+app.use('/api/rol', [checkAuth, hasRoles([isAdmin])], rolRoutes);
 
 // Person Routes
-app.use('/api/ocupacion', [checkAuth, isAdmin], ocupacionRoutes);
-app.use('/api/religion', [checkAuth, isAdmin], religionRoutes);
-app.use('/api/parentesco', [checkAuth, isAdmin], parentescoRoutes);
-app.use('/api/cargoComunidad', [checkAuth, isAdmin], cargoComunidadRoutes);
-app.use('/api/tipoDiscapacidad', [checkAuth, isAdmin], tipoDiscapacidadRoutes);
-app.use('/api/accionEmergencia', [checkAuth, isAdmin], accionEmergenciaRoutes);
-app.use('/api/seguroSalud', [checkAuth, isAdmin], seguroSaludRoutes);
-app.use('/api/enfermedad', [checkAuth, isAdmin], enfermedadRoutes);
-app.use('/api/medioInformacion', [checkAuth, isAdmin], medioInformacionRoutes);
-app.use('/api/nivelEducativo', [checkAuth, isAdmin], nivelEducativoRoutes);
-app.use('/api/grupoEtnico', [checkAuth, isAdmin], grupoEtnicoRoutes);
-// app.use('/api/persona', [checkAuth, isAdmin], personaRoutes);
+app.use('/api/ocupacion', [checkAuth, hasRoles([isAdmin])], ocupacionRoutes);
+app.use('/api/religion', [checkAuth, hasRoles([isAdmin])], religionRoutes);
+app.use('/api/parentesco', [checkAuth, hasRoles([isAdmin])], parentescoRoutes);
+app.use('/api/cargoComunidad', [checkAuth, hasRoles([isAdmin])], cargoComunidadRoutes);
+app.use('/api/tipoDiscapacidad', [checkAuth, hasRoles([isAdmin])], tipoDiscapacidadRoutes);
+app.use('/api/accionEmergencia', [checkAuth, hasRoles([isAdmin])], accionEmergenciaRoutes);
+app.use('/api/seguroSalud', [checkAuth, hasRoles([isAdmin])], seguroSaludRoutes);
+app.use('/api/enfermedad', [checkAuth, hasRoles([isAdmin])], enfermedadRoutes);
+app.use('/api/medioInformacion', [checkAuth, hasRoles([isAdmin])], medioInformacionRoutes);
+app.use('/api/nivelEducativo', [checkAuth, hasRoles([isAdmin])], nivelEducativoRoutes);
+app.use('/api/grupoEtnico', [checkAuth, hasRoles([isAdmin])], grupoEtnicoRoutes);
+// app.use('/api/persona', [checkAuth, hasRoles([isAdmin])], personaRoutes);
 
 // Housing Characteristics
-app.use('/api/abastecimientoAgua', [checkAuth, isAdmin], abastecimientoAguaRoutes);
-app.use('/api/cloracion', [checkAuth, isAdmin], cloracionRoutes);
-app.use('/api/combustibleCocina', [checkAuth, isAdmin], combustibleCocinaRoutes);
-app.use('/api/disposicionBasura', [checkAuth, isAdmin], disposicionBasuraRoutes);
-app.use('/api/materialVivienda', [checkAuth, isAdmin], materialViviendaRoutes);
-app.use('/api/medidaProteccion', [checkAuth, isAdmin], medidaProteccionRoutes);
-app.use('/api/servicioHigienico', [checkAuth, isAdmin], servicioHigienicoRoutes);
+app.use('/api/abastecimientoAgua', [checkAuth, hasRoles([isAdmin])], abastecimientoAguaRoutes);
+app.use('/api/cloracion', [checkAuth, hasRoles([isAdmin])], cloracionRoutes);
+app.use('/api/combustibleCocina', [checkAuth, hasRoles([isAdmin])], combustibleCocinaRoutes);
+app.use('/api/disposicionBasura', [checkAuth, hasRoles([isAdmin])], disposicionBasuraRoutes);
+app.use('/api/materialVivienda', [checkAuth, hasRoles([isAdmin])], materialViviendaRoutes);
+app.use('/api/medidaProteccion', [checkAuth, hasRoles([isAdmin])], medidaProteccionRoutes);
+app.use('/api/servicioHigienico', [checkAuth, hasRoles([isAdmin])], servicioHigienicoRoutes);
 
 // Housing Location Routes
-app.use('/api/departamento', [checkAuth, isAdmin], departamentoRoutes);
-app.use('/api/provincia', [checkAuth, isAdmin], provinciaRoutes);
-app.use('/api/distrito', [checkAuth, isAdmin], distritoRoutes);
-app.use('/api/centroPoblado', [checkAuth, isAdmin], centroPobladoRoutes);
-app.use('/api/sector', [checkAuth, isAdmin], sectorRoutes);
+app.use('/api/departamento', [checkAuth, hasRoles([isAdmin])], departamentoRoutes);
+app.use('/api/provincia', [checkAuth, hasRoles([isAdmin])], provinciaRoutes);
+app.use('/api/distrito', [checkAuth, hasRoles([isAdmin])], distritoRoutes);
+app.use('/api/centroPoblado', [checkAuth, hasRoles([isAdmin])], centroPobladoRoutes);
+app.use('/api/sector', [checkAuth, hasRoles([isAdmin])], sectorRoutes);
 
 // Family Record
-app.use('/api/equipoAsignado', [checkAuth, isAdmin], equipoAsignadoRoutes);
-app.use('/api/fichaFamiliar', [checkAuth, isAdmin], fichaFamiliarRoutes);
+app.use('/api/equipoAsignado', [checkAuth, hasRoles([isAdmin])], equipoAsignadoRoutes);
+app.use('/api/fichaFamiliar', [checkAuth, hasRoles([isAdmin, isRegister])], fichaFamiliarRoutes);
 
 
 // Creacion del servidor

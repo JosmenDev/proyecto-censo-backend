@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken'
 import Usuario from '../models/user/Usuario.js';
 import { respondWithError, respondWithServerError } from '../helpers/errors.js';
-import Rol from '../models/user/Rol.js';
 import Empleado from '../models/user/Empleado.js';
 
 const checkAuth = async (req, res, next ) => {

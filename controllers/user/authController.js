@@ -1,13 +1,16 @@
 import { respondWithError, respondWithServerError } from "../../helpers/errors.js";
 import generarJWT from "../../helpers/generarJWT.js";
 import Usuario from "../../models/user/Usuario.js";
+import Empleado from "../../models/user/Empleado.js";
 
 
 const autenticar = async (req, res) => {
     const { username, password } = req.body;
     try {
         // console.log('Validando...');
-        const usuario = await Usuario.findOne({ where: {username}});
+        const usuario = await Usuario.findOne({ where: {username},
+            include: [ { model: Empleado, as: 'empleado'}]
+        });
         // validar el username
         // console.log('Validando username');
         if (!usuario) {
@@ -19,14 +22,12 @@ const autenticar = async (req, res) => {
         if (!validarPassword) {
             return respondWithError(res, 404, 'El password es incorrecto');
         }
-        const data = {confirmado: usuario.confirmado};
 
+        const { password:_, ...data} = usuario.dataValues;
         // confirmar password
-        if (!usuario.confirmado) {
-            data.token = usuario.token;
-        } else {
+        if (data.confirmado) {
             data.token = generarJWT(usuario.id);
-        }
+        } 
 
         // autenticar usuario
         res.json(data);

@@ -83,7 +83,6 @@ const confirmar = async (req, res) => {
 
 const perfil = (req, res) => {
     const { usuario } = req;
-    console.log(usuario);
     res.json(usuario);
 }
 

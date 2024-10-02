@@ -3,8 +3,8 @@ import NivelEducativo from "../../models/person/NivelEducativo.js";
 
 const agregarRegistro = async (req, res) => {
     try {
-        await NivelEducativo.create(req.body);
-        res.json({msg: 'Nivel educativo agregado correctamente'});
+        const nuevoNivelEducativo = await NivelEducativo.create(req.body);
+        res.json(nuevoNivelEducativo);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         nivelEducativo.nombre = req.body.nombre || nivelEducativo.nombre;
-        await nivelEducativo.save();
-        res.json({msg: 'Nivel educativo actualizado correctamente'});
+        const nivelEductivoActualizado = await nivelEducativo.save();
+        res.json(nivelEductivoActualizado);
     } catch (error) {
         respondWithServerError(res, error);
     }

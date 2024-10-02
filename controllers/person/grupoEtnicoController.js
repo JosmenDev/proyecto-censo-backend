@@ -3,8 +3,8 @@ import GrupoEtnico from "../../models/person/GrupoEtnico.js";
 
 const agregarRegistro = async (req, res) => {
     try {
-        await GrupoEtnico.create(req.body);
-        res.json({msg: 'Grupo étnico agregado correctamente'});
+        const nuevoGrupoEtnico = await GrupoEtnico.create(req.body);
+        res.json(nuevoGrupoEtnico);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         grupoEtnico.nombre = req.body.nombre || grupoEtnico.nombre;
-        await grupoEtnico.save();
-        res.json({msg: 'Grupo étnico actualizado correctamente'});
+        const grupoEtnicoActualizado = await grupoEtnico.save();
+        res.json(grupoEtnicoActualizado);
     } catch (error) {
         respondWithServerError(res, error);
     }

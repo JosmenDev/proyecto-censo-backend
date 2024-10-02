@@ -3,8 +3,8 @@ import CargoComunidad from '../../models/person/cargoCuminadad.js';
 
 const agregarRegistro = async (req, res) => {
     try {
-        await CargoComunidad.create(req.body);
-        res.json({msg: 'Cargo de Comunidad agregado correctamente'});
+        const nuevoCargoComunidad = await CargoComunidad.create(req.body);
+        res.json(nuevoCargoComunidad);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         cargoComunidad.nombre = req.body.nombre || cargoComunidad.nombre;
-        await cargoComunidad.save();
-        res.json({msg: 'Cargo de comunidad actualizado correctamente'});
+        const cargoComunidadActualizado = await cargoComunidad.save();
+        res.json(cargoComunidadActualizado);
     } catch (error) {
         respondWithServerError(res, error);
     }

@@ -3,8 +3,8 @@ import TipoDiscapacidad from "../../models/person/TipoDiscapacidad.js";
 
 const agregarRegistro = async (req, res) => {
     try {
-        await TipoDiscapacidad.create(req.body);
-        res.json({msg: 'Tipo de discapacidad agregado correctamente'});
+        const nuevoTipoDiscapacidad = await TipoDiscapacidad.create(req.body);
+        res.json(nuevoTipoDiscapacidad);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         tipoDiscapacidad.nombre = req.body.nombre || tipoDiscapacidad.nombre;
-        await tipoDiscapacidad.save();
-        res.json({msg: 'Tipo de discapacidad actualizado correctamente'});
+        const tipoDiscapacidadActualizada = await tipoDiscapacidad.save();
+        res.json(tipoDiscapacidadActualizada);
     } catch (error) {
         respondWithServerError(res, error);
     }

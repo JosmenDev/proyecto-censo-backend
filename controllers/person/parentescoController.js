@@ -3,8 +3,8 @@ import Parentesco from "../../models/person/Parentesco.js";
 
 const agregarRegistro = async (req, res) => {
     try {
-        await Parentesco.create(req.body);
-        res.json({msg: 'Parentesco agregado correctamente'});
+        const nuevoParentesco = await Parentesco.create(req.body);
+        res.json(nuevoParentesco);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         parentesco.nombre = req.body.nombre || parentesco.nombre;
-        await parentesco.save();
-        res.json({msg: 'Parentesco actualizado correctamente'});
+        const parentescoActualizado = await parentesco.save();
+        res.json(parentescoActualizado);
     } catch (error) {
         respondWithServerError(res, error);
     }

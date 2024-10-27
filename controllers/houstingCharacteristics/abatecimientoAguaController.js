@@ -3,8 +3,8 @@ import {respondWithError, respondWithServerError} from '../../helpers/errors.js'
 
 const agregarRegistro = async (req, res) => {
     try {
-        await AbastecimientoAgua.create(req.body);
-        res.json({msg: 'Abastecimiento de agua agregado correctamente'});
+        const nuevoAbastecimientoAgua = await AbastecimientoAgua.create(req.body);
+        res.json(nuevoAbastecimientoAgua);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         abastecimientoAgua.nombre = req.body.nombre || abastecimientoAgua.nombre;
-        await abastecimientoAgua.save();
-        res.json({msg: 'Abastecimiento de agua actualizado correctamente'});
+        const abastecimientoAguaActualizado = await abastecimientoAgua.save();
+        res.json(abastecimientoAguaActualizado);
     } catch (error) {
         respondWithServerError(res, error);
     }

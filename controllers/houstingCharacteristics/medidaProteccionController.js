@@ -3,8 +3,8 @@ import MedidaProteccion from "../../models/houstingCharacteristics/MedidaProtecc
 
 const agregarRegistro = async (req, res) => {
     try {
-        await MedidaProteccion.create(req.body);
-        res.json({msg: 'Medida de protección agregado correctamente'});
+        const nuevaMedidaProteccion = await MedidaProteccion.create(req.body);
+        res.json(nuevaMedidaProteccion);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         medidaProteccion.nombre = req.body.nombre || medidaProteccion.nombre;
-        await medidaProteccion.save();
-        res.json({msg: 'Medida de protección actualizado correctamente'});
+        const medidaProteccionActualizada = await medidaProteccion.save();
+        res.json(medidaProteccionActualizada);
     } catch (error) {
         respondWithServerError(res, error);
     }

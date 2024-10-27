@@ -3,8 +3,8 @@ import {respondWithError, respondWithServerError} from '../../helpers/errors.js'
 
 const agregarRegistro = async (req, res) => {
     try {
-        await MaterialVivienda.create(req.body);
-        res.json({msg: 'Material de vivienda agregado correctamente'});
+        const nuevoMaterialVivienda = await MaterialVivienda.create(req.body);
+        res.json(nuevoMaterialVivienda);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         materialVivienda.nombre = req.body.nombre || materialVivienda.nombre;
-        await materialVivienda.save();
-        res.json({msg: 'Material de vivienda actualizado correctamente'});
+        const materialViviendaActualizado = await materialVivienda.save();
+        res.json(materialViviendaActualizado);
     } catch (error) {
         respondWithServerError(res, error);
     }

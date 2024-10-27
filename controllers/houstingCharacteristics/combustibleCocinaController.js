@@ -2,10 +2,9 @@ import CombustibleCocina from "../../models/houstingCharacteristics/CombustibleC
 import {respondWithError, respondWithServerError} from '../../helpers/errors.js';
 
 const agregarRegistro = async (req, res) => {
-    const { nombre } = req.body;
     try {
-        await CombustibleCocina.create(req.body);
-        res.json({msg: 'Combustible de cocina agregado correctamente'});
+        const nuevoCombustibleCocina =  await CombustibleCocina.create(req.body);
+        res.json(nuevoCombustibleCocina);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -44,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         combustibleCocina.nombre = req.body.nombre || combustibleCocina.nombre;
-        await combustibleCocina.save();
-        res.json({msg: 'Combustible de cocina actualizado correctamente'});
+        const combustibleCocinaActualizado = await combustibleCocina.save();
+        res.json(combustibleCocinaActualizado);
     } catch (error) {
         respondWithServerError(res, error);
     }

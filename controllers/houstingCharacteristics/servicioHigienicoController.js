@@ -3,8 +3,8 @@ import ServicioHigienico from "../../models/houstingCharacteristics/ServicioHigi
 
 const agregarRegistro = async (req, res) => {
     try {
-        await ServicioHigienico.create(req.body);
-        res.json({msg: 'Servicio higiénico agregado correctamente'});
+        const nuevoServicioHigienico = await ServicioHigienico.create(req.body);
+        res.json(nuevoServicioHigienico);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         servicioHigienico.nombre = req.body.nombre || servicioHigienico.nombre;
-        await servicioHigienico.save();
-        res.json({msg: 'Servicio higiénico actualizado correctamente'});
+        const servicioHigienicoActualizado = await servicioHigienico.save();
+        res.json(servicioHigienicoActualizado);
     } catch (error) {
         respondWithServerError(res, error);
     }

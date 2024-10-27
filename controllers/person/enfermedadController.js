@@ -3,8 +3,8 @@ import {respondWithError, respondWithServerError} from '../../helpers/errors.js'
 
 const agregarRegistro = async (req, res) => {
     try {
-        await Enfermedad.create(req.body);
-        res.json({msg: 'Enfermedad agregada correctamente'});
+        const nuevaEnfermedad = await Enfermedad.create(req.body);
+        res.json(nuevaEnfermedad);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         enfermedad.nombre = req.body.nombre || enfermedad.nombre;
-        await enfermedad.save();
-        res.json({msg: 'Enfermedad actualizada correctamente'});
+        const enfermedadActualizada = await enfermedad.save();
+        res.json(enfermedadActualizada);
     } catch (error) {
         respondWithServerError(res, error);
     }

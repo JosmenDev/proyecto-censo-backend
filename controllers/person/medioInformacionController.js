@@ -3,8 +3,8 @@ import MedioInformacion from "../../models/person/MedioInformacion.js";
 
 const agregarRegistro = async (req, res) => {
     try {
-        await MedioInformacion.create(req.body);
-        res.json({msg: 'Medio de información agregado correctamente'});
+        const nuevoMedioInformacion = await MedioInformacion.create(req.body);
+        res.json(nuevoMedioInformacion);
     } catch (error) {
         respondWithServerError(res, error);
     }
@@ -43,8 +43,8 @@ const actualizarRegistro = async (req, res) => {
         }
         // Actualiza
         medioInformacion.nombre = req.body.nombre || medioInformacion.nombre;
-        await medioInformacion.save();
-        res.json({msg: 'Medio de información actualizado correctamente'});
+        const medioInformacionActualizado = await medioInformacion.save();
+        res.json(medioInformacionActualizado);
     } catch (error) {
         respondWithServerError(res, error);
     }

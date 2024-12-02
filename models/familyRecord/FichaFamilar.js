@@ -2,7 +2,7 @@ import db from '../../config/db.js';
 // import generarId from '../../helpers/generarId.js';
 import { Model, DataTypes } from 'sequelize';
 import Empleado from '../user/Empleado.js';
-import { v4 as uuid4 } from 'uuid';
+import { getUUID } from '../../plugins/getUuidPlugin.js';
 
 class FichaFamiliar extends Model {}    
 
@@ -12,7 +12,7 @@ FichaFamiliar.init({
         type: DataTypes.STRING(20),
         allowNull: false,
         primaryKey: true,
-        defaultValue: uuid4
+        defaultValue: getUUID
     },
     fecha_ficha: {
         type: DataTypes.DATE,

@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import db from "../../config/db.js";
 import CaracteristicasVivienda from "./CaracteristicasVivienda.js";
 import MedidaProteccion from "./MedidaProteccion.js";
-import { v4 as uuid4 } from 'uuid';
+import { getUUID } from '../../plugins/getUuidPlugin.js';
 
 class ItemProteccion extends Model {};
 
@@ -11,7 +11,7 @@ ItemProteccion.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
-        defaultValue: uuid4
+        defaultValue: getUUID
     },
     valor: {
         type: DataTypes.STRING,

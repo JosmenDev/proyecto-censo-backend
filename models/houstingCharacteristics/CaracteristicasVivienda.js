@@ -8,7 +8,7 @@ import ServicioHigienico from "./ServicioHigienico.js";
 import CombustibleCocina from "./CombustibleCocina.js";
 import Cloracion from "./Cloracion.js";
 import DisposicionBasura from "./DisposicionBasura.js";
-import { v4 as uuid4 } from 'uuid';
+import { getUUID } from '../../plugins/getUuidPlugin.js';
 
 class CaracteristicasVivienda extends Model {};
 
@@ -17,7 +17,7 @@ CaracteristicasVivienda.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
-        defaultValue: uuid4
+        defaultValue: getUUID
     },
     idlocalizacion_vivienda: {
         type: DataTypes.STRING,

@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize"
-import {v4 as uuid4} from "uuid"
+import { getUUID } from '../../plugins/getUuidPlugin.js';
 import db from "../../config/db.js"
 import Persona from "./Persona.js";
 import MedioInformacion from "./MedioInformacion.js";
@@ -9,7 +9,7 @@ class MediosInfoPersona extends Model {};
 MediosInfoPersona.init( {
     id: {
         type: DataTypes.STRING,
-        defaultValue: uuid4,
+        defaultValue: getUUID,
         primaryKey: true,
         allowNull: false
     }

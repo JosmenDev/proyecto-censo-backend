@@ -4,7 +4,7 @@ import db from "../../config/db.js";
 import FichaFamiliar from "../familyRecord/FichaFamilar.js";
 import Sector from "./Sector.js";
 import CentroPoblado from "./CentroPoblado.js";
-import { v4 as uuid4 } from 'uuid';
+import { getUUID } from '../../plugins/getUuidPlugin.js';
 
 class LocalizacionVivienda extends Model {};
 
@@ -13,7 +13,7 @@ LocalizacionVivienda.init( {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
-        defaultValue: uuid4
+        defaultValue: getUUID
     },
     idficha_familiar: {
         type: DataTypes.STRING,

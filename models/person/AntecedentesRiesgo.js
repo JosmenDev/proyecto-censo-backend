@@ -1,6 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import db from "../../config/db.js";
-import {v4 as uuid4} from "uuid";
+import { getUUID } from '../../plugins/getUuidPlugin.js';
 import Persona from "./Persona.js";
 import Enfermedad from "./Enfermedad.js";
 
@@ -11,7 +11,7 @@ AntecedentesRiesgo.init ( {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true,
-        defaultValue: uuid4
+        defaultValue: getUUID
     },
     otro_descripcion: {
         type: DataTypes.STRING,
